@@ -11,27 +11,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     // Mengambil API visualisasi.
     google.charts.load('current', {'packages':['corechart']});
     //mengambil data dari variabel PHP
-    var region=[];
-    region['dataStr'] = '<?php echo $region;?>';        
-    region['dataArray'] = JSON.parse(region['dataStr']);   
-    //menggambar grafik
-	var sales=[];
-	sales['dataStr'] = '<?php echo $sales;?>';        
-	sales['dataArray'] = JSON.parse(sales['dataStr']);
-	var produk=[];
-	produk['dataStr'] = '<?php echo $produk;?>';        
-	produk['dataArray'] = JSON.parse(produk['dataStr']);
-	var bulanan=[];
-	bulanan['dataStr'] = '<?php echo $bulanan;?>';        
-	bulanan['dataArray'] = JSON.parse(bulanan['dataStr']);
+    var data_perpus=[];
+    data_perpus['dataStr'] = '<?php echo $buku;?>';        
+    data_perpus['dataArray'] = JSON.parse(data_perpus['dataStr']);   
 	//menggambar grafik
+	console.log(data_perpus)
     google.charts.setOnLoadCallback(function(){
-        drawChart(region['dataArray'], 'pie','region'); 
-		drawChart(sales['dataArray'],'bar','sales');
-		drawChart(produk['dataArray'],'bar','produk'); 
-		drawChart(bulanan['dataArray'],'bar','bulanan');
+        drawChart(data_perpus['dataArray'], 'area','grafik1'); 
+		drawChart(data_perpus['dataArray'],'column','grafik2');
+		drawChart(data_perpus['dataArray'],'bar','grafik3'); 
+		drawChart(data_perpus['dataArray'],'line','grafik4');
     });
-	    
+		console.log(data_perpus['dataArray']);
     // Menentukan data yang akan ditampilkan
     function drawChart(dataArray,type,container) {
         // Membuat data tabel yang sesuai dengan format google chart dari sumber data array javascript
@@ -43,9 +34,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             titleTextStyle:{fontSize:18},
             chartArea:{width:'80%',height:'70%'}                      
             };
-        if(type == 'pie')
+        if(type == 'area')
         {
-            var chart = new google.visualization.PieChart(document.getElementById(container));
+            var chart = new google.visualization.AreaChart(document.getElementById(container));
         }
         if(type == 'column')
         {
@@ -54,6 +45,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         if(type == 'bar')
         {
             var chart = new google.visualization.BarChart(document.getElementById(container));
+        }
+		if(type == 'line')
+        {
+            var chart = new google.visualization.LineChart(document.getElementById(container));
         }
         chart.draw(data, options);
     }
@@ -64,33 +59,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div id="diagram-pie"></div>
 <nav class="uk-navbar-container uk-margin" uk-navbar>
     <div class="uk-navbar-left">
-        <a class="uk-navbar-item uk-logo" href="#">Analisis Penjualan</a>
+        <a class="uk-navbar-item uk-logo" href="#">Analisis Data Perpustakaan di Banjarnegara Tahun 2020</a>
     </div>
 </nav>
 <div class="uk-container">
     <div class="uk-child-width-1-2@s" uk-grid uk-height-match="target: > div > .uk-card">    
         <div>
             <div class="uk-card uk-card-default uk-card-small uk-card-body" >
-                <h3 class="uk-card-title">Penjualan Berdasarkan Region</h3>
-                <div id="region" style="height:350px;"></div>
+                <h3 class="uk-card-title">Data Perpustakaan Berdasarkan Kecamatan</h3>
+                <div id="grafik1" style="height:350px;"></div>
             </div>
         </div>
         <div>
             <div class="uk-card uk-card-default uk-card-small uk-card-body" >
-                <h3 class="uk-card-title">Hasil Penjualan Oleh Sales</h3>
-                <div id="sales" style="height:350px;"></div>
+                <h3 class="uk-card-title">Data Perpustakaan Berdasarkan Desa</h3>
+                <div id="grafik2" style="height:350px;"></div>
             </div>
         </div>
         <div>
             <div class="uk-card uk-card-default uk-card-small uk-card-body" >
-                <h3 class="uk-card-title">Produk Terlaris</h3>
-                <div id="produk" style="height:350px;"></div>
+                <h3 class="uk-card-title">Data Perpustakaan Berdasarkan Nama Perpustakaan</h3>
+                <div id="grafik3" style="height:350px;"></div>
             </div>
         </div>
         <div>
             <div class="uk-card uk-card-default uk-card-small uk-card-body" >
-                <h3 class="uk-card-title">Penjualan Bulanan</h3>
-                <div id="bulanan" style="height:350px;"></div>
+                <h3 class="uk-card-title">Data Perpustakaan Berdasarkan Jumlah Buku</h3>
+                <div id="grafik4" style="height:350px;"></div>
             </div>
         </div>
     </div>
